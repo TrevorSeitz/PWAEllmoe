@@ -18,7 +18,7 @@ const Layout = ({children}) => (
   <HeaderFooterWrapper>
 
     <Header>
-      <HeaderLink to="/">Firefly</HeaderLink>
+      <HeaderLink to="/">Ellmoe</HeaderLink>
 
       <div style={{float: 'right'}}>
         <HeaderLink to="/search">

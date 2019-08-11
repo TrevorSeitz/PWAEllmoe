@@ -2,9 +2,9 @@
 // https://community.algolia.com/react-instantsearch/guide/Styling_widgets.html
 // https://www.styled-components.com/docs/api#injectglobal
 
-import { injectGlobal } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
-injectGlobal`
+createGlobalStyle`
   .ais-SearchBox-input {
     padding: .5rem;
     border-radius: 3px;
@@ -36,4 +36,4 @@ injectGlobal`
     text-decoration: none;
     padding: 1rem 0;
   }
-`
+`;

@@ -1,11 +1,11 @@
 // if the currently logged-in user is a paid subscriber,
-// this will provide their Firefly subscription
+// this will provide their Ellmoe subscription
 
 import React from 'react'
 import FirebaseAuth from './FirebaseAuth'
 import { FirestoreCollection } from 'react-firestore'
 
-const FireflySubscription = ({children}) => (
+const EllmoeSubscription = ({children}) => (
   <FirebaseAuth>
     { ({isLoading, error, auth}) => {
 
@@ -34,4 +34,4 @@ const FireflySubscription = ({children}) => (
   </FirebaseAuth>
 )
 
-export default FireflySubscription
+export default EllmoeSubscription

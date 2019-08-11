@@ -1,7 +1,6 @@
-import { injectGlobal } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
-// https://www.styled-components.com/docs/api#injectglobal
-injectGlobal`
+createGlobalStyle`
   *:before,
   *:after,
   * {
@@ -33,4 +32,4 @@ injectGlobal`
     background: #eee;
     margin: 1rem 0;
   }
-`
+`;

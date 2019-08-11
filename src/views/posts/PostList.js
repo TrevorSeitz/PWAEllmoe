@@ -2,7 +2,7 @@ import React from 'react'
 import { FirestoreCollection } from 'react-firestore'
 
 import Error from '../misc/Error'
-import FireflySubscription from '../misc/FireflySubscription'
+import EllmoeSubscription from '../misc/EllmoeSubscription'
 import {
   InternalLink,
 } from '../../styles/links'
@@ -51,7 +51,7 @@ const PostList = () => (
     <hr />
     
     {/* For paid subscribers only */}
-    <FireflySubscription>
+    <EllmoeSubscription>
       { ({isLoading, error, subscription}) => {
 
         if (error) {
@@ -74,7 +74,7 @@ const PostList = () => (
         </div>
 
       }}
-    </FireflySubscription>
+    </EllmoeSubscription>
   </Page>
 )
 
