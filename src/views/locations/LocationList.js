@@ -4,13 +4,11 @@ import { FirestoreCollection } from "react-firestore";
 import Error from "../misc/Error";
 import EllmoeSubscription from "../misc/EllmoeSubscription";
 import { InternalLink } from "../../styles/links";
-import { Page } from "../../styles/layout";
+import { Place } from "../../styles/layout";
 
 const PostList = () => (
-  <Page>
-    <InternalLink to="/new">New post</InternalLink>
-    <hr />
-    <FirestoreCollection path={"posts"} sort="_likeCount:desc">
+  <Place>
+    <FirestoreCollection path={"locations"}>
       {({ error, isLoading, data }) => {
         if (error) {
           return <Error error={error} />;
@@ -21,18 +19,17 @@ const PostList = () => (
         }
 
         if (data.length === 0) {
-          return <p>No posts yet!</p>;
+          return <p>No locations yet!</p>;
         }
 
         return (
           <div>
-            {data.map(post => (
-              <div key={post.id}>
-                <InternalLink to={`/${post.slug}`}>{post.title}</InternalLink>
-                <p>
-                  {post._likeCount || 0}{" "}
-                  {post._likeCount && post._likeCount === 1 ? "like" : "likes"}
-                </p>
+            {data.map(location => (
+              <div key={location.id}>
+                <InternalLink to={`/${location.slug}`}>
+                  {location.name}
+                </InternalLink>
+                <hr />
               </div>
             ))}
           </div>
@@ -69,7 +66,10 @@ const PostList = () => (
         );
       }}
     </EllmoeSubscription>
-  </Page>
+    <hr />
+    <hr />
+    <InternalLink to="/new">Add A New Location</InternalLink>
+  </Place>
 );
 
 export default PostList;

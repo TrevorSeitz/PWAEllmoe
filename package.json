@@ -5,6 +5,7 @@
   "homepage": "http://demo.getEllmoe.org",
   "dependencies": {
     "firebase": "^6.3.5",
+    "raven-js": "^3.27.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-firestore": "^1.0.1",

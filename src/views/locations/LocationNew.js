@@ -5,10 +5,10 @@ import Error from "../misc/Error";
 import logIn from "../../actions/logIn";
 import createLocation from "../../actions/createLocation";
 import LocationForm from "./LocationForm";
-import { Location } from "../../styles/layout";
+import { Place } from "../../styles/layout";
 
 const LocationNew = ({ history }) => (
-  <Location>
+  <Place>
     <FirebaseAuth>
       {({ isLoading, error, auth }) => {
         if (error) {
@@ -38,7 +38,7 @@ const LocationNew = ({ history }) => (
         );
       }}
     </FirebaseAuth>
-  </Location>
+  </Place>
 );
 
 export default LocationNew;

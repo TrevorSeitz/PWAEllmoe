@@ -1,19 +1,18 @@
 import React from "react";
 import { FirestoreCollection } from "react-firestore";
 
-import Error from "../misc/Error";
 import FirebaseAuth from "../misc/FirebaseAuth";
+import Error from "../misc/Error";
 import { InternalLink } from "../../styles/links";
-import { Location } from "../../styles/layout";
+import { Place } from "../../styles/layout";
 
-const Location = ({ match }) => {
+const Location = ({ match }) => (
   //Not sure why match is used here
-  <Location>
+  <Place>
     <FirestoreCollection
       path={"locations"}
       filter={["slug", "==", match.params.slug]}
     >
-      // match.params.slug should probably be uid...
       {({ error, isLoading, data }) => {
         if (error) {
           return <Error error={error} />;
@@ -29,10 +28,12 @@ const Location = ({ match }) => {
 
         const location = data[0];
 
+        console.log("location: ", location);
+        console.log("location: ", data);
+
         return (
           <div>
             <img src={location.imageURL} width="100" height="100" />
-            // put additional photos here
             <h1>{location.name}</h1>
             <h5>Venue Type: {location.venue}</h5>
             <h5>Project: {location.project}</h5>
@@ -44,7 +45,9 @@ const Location = ({ match }) => {
             <FirebaseAuth>
               {({ auth }) =>
                 auth ? (
-                  <InternalLink to={`/${ocation.slug}/edit`}>Edit</InternalLink>
+                  <InternalLink to={`/${location.slug}/edit`}>
+                    Edit
+                  </InternalLink>
                 ) : null
               }
             </FirebaseAuth>
@@ -52,7 +55,7 @@ const Location = ({ match }) => {
         );
       }}
     </FirestoreCollection>
-  </Location>;
-};
+  </Place>
+);
 
 export default Location;

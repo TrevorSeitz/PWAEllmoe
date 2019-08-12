@@ -13,7 +13,7 @@ const Header = styled.div`
 const Page = styled.div`
   padding: 1rem;
 `;
-const Location = styled.div`
+const Place = styled.div`
   padding: 1rem;
 `;
 const Footer = styled.div`
@@ -22,4 +22,4 @@ const Footer = styled.div`
   opacity: 0.3;
 `;
 
-export { HeaderFooterWrapper, Header, Page, Location, Footer };
+export { HeaderFooterWrapper, Header, Page, Place, Footer };
