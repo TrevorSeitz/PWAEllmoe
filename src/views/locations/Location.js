@@ -33,7 +33,7 @@ const Location = ({ match }) => (
 
         return (
           <div>
-            <img src={location.imageURL} width="100" height="100" />
+            <img src={location.imageURL} alt="" width="100" height="100" />
             <h1>{location.name}</h1>
             <h5>Venue Type: {location.venue}</h5>
             <h5>Project: {location.project}</h5>

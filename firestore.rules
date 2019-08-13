@@ -1,14 +1,15 @@
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    match /posts/{post} {
-      allow read: if true;
-      allow create: if request.auth.uid == request.resource.data.createdBy;
-      allow update, delete: if request.auth.uid == resource.data.createdBy;
+    match /locations/{locations} {
+      allow read: if request.auth.uid == request.resource.data.uid;;
+      allow create: if request.auth.uid == request.resource.data.uid;
+      allow update, delete: if request.auth.uid == resource.data.uid;
     }
 
+
     match /postLikes/{postLike} {
-      allow read: if true;
+      allow read: if request.auth.uid == request.resource.data.createdBy;
       allow create: if request.auth.uid == request.resource.data.createdBy;
       allow update, delete: if request.auth.uid == resource.data.createdBy;
     }

@@ -18,7 +18,7 @@ const prepareDocForUpdate = doc => {
   doc.updatedBy = Firebase.auth().currentUser
     ? Firebase.auth().currentUser.uid
     : null;
-  doc.updatedOn = Firebase.firestore.Timestamp.now();
+  // doc.updatedOn = Firebase.firestore.Timestamp.now();
 
   // don't save the id as part of the document
   delete doc.id;

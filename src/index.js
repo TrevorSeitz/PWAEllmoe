@@ -15,10 +15,18 @@ console.log("Ellmoe project:", process.env.REACT_APP_ENV);
 
 // connect our app to firebase
 const dbConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID
+  // apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  // authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  // projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID
+  apiKey: "AIzaSyAdb-VyzqskSDW_vxh984z7elcmNkPOYts",
+  src: "https://www.gstatic.com/firebasejs/5.9.1/firebase.js",
+  authDomain: "ellmoe.firebaseapp.com",
+  databaseURL: "https://ellmoe.firebaseio.com",
+  projectId: "ellmoe",
+  storageBucket: "ellmoe.appspot.com",
+  messagingSenderId: "774360750184"
 };
+
 Firebase.initializeApp(dbConfig);
 
 // temporary config to squash error date warning

@@ -6,7 +6,7 @@
 // get the values from the form on submit.
 
 import React from "react";
-
+import { ImageUpload } from "../../actions/ImageUpload";
 import { FormRow, FormLabel, TextInput, TextArea } from "../../styles/forms";
 
 class LocationForm extends React.Component {
@@ -51,7 +51,6 @@ class LocationForm extends React.Component {
             type="venue"
             name="venue"
             defaultValue={this.props.location ? this.props.location.venue : ""}
-            required
           />
         </FormRow>
         <FormRow>
@@ -62,7 +61,6 @@ class LocationForm extends React.Component {
             defaultValue={
               this.props.location ? this.props.location.project : ""
             }
-            required
           />
         </FormRow>
         <FormRow>
@@ -73,7 +71,6 @@ class LocationForm extends React.Component {
             defaultValue={
               this.props.location ? this.props.location.contactName : ""
             }
-            required
           />
         </FormRow>
         <FormRow>
@@ -86,7 +83,6 @@ class LocationForm extends React.Component {
             defaultValue={
               this.props.location ? this.props.location.contactPhoneNumber : ""
             }
-            required
           />
         </FormRow>
         <FormRow>
@@ -95,7 +91,6 @@ class LocationForm extends React.Component {
             type="email"
             name="email"
             defaultValue={this.props.location ? this.props.location.email : ""}
-            required
           />
         </FormRow>
         <FormRow>
@@ -106,10 +101,11 @@ class LocationForm extends React.Component {
             defaultValue={
               this.props.location ? this.props.location.description : ""
             }
-            required
           />
         </FormRow>
-
+        <FormRow>
+          <ImageUpload />
+        </FormRow>
         <button type="submit">Save</button>
       </form>
     );

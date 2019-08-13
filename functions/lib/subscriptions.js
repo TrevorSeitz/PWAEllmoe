@@ -1,13 +1,13 @@
 const admin = require('firebase-admin')
 const FieldValue = require('firebase-admin').firestore.FieldValue
 const functions = require('firebase-functions')
-const Stripe = require('stripe')
+// const Stripe = require('stripe')
+//
+// const STRIPE_SECRET_KEY = functions.config().stripe.secret_key
+// const STRIPE_PLAN_ID = functions.config().stripe.plan_id
+// const stripe = Stripe(STRIPE_SECRET_KEY)
 
-const STRIPE_SECRET_KEY = functions.config().stripe.secret_key
-const STRIPE_PLAN_ID = functions.config().stripe.plan_id
-const stripe = Stripe(STRIPE_SECRET_KEY)
-
-// this backend code is responsible for keeping the Stripe subscriptions 
+// this backend code is responsible for keeping the Stripe subscriptions
 // up-to-date when users CRUD db subscriptions
 // https://stripe.com/docs/billing/quickstart
 
@@ -15,7 +15,7 @@ const stripe = Stripe(STRIPE_SECRET_KEY)
 // when it's time to automate failed suscriptions, use
 // https://stripe.com/docs/webhooks or a service like Charify or Recurly
 exports.updateStripeSubscription = (change, context) => {
-  
+
   // if subscription has been deleted, delete any attached stripe subscription
   if (!change.after.exists) {
     console.log(`deleted subscription ${change.before.id}: ${change.before.data()}`)
@@ -33,7 +33,7 @@ exports.updateStripeSubscription = (change, context) => {
   if (!subscription.tempStripePaymentTokenId) {
     return null
   }
-  
+
   console.log(`update subscription ${subscription.id} with ${subscription.tempStripePaymentTokenId}`)
   return getUser(subscription.createdBy)
     .then(user => createOrGetStripeCustomerId(user))
