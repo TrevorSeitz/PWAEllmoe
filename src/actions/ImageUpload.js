@@ -1,48 +1,27 @@
 import * as React from "react";
-// import { dbConfig } from "../index.js";
-// import * as firebase from "firebase/app";
 import Firebase from "firebase/app";
 import "firebase/storage";
 import shortid from "shortid";
-// import { registerPlugin } from "react-filepond";
 import { FilePond, registerPlugin } from "react-filepond";
 import "filepond/dist/filepond.min.css";
-// import * as FilePond from "filepond";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 
 // And import the necessary css
-// import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 
 // register the filepond plugins for additional functionality
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
-// const dbConfig = {
-//   // apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-//   // authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-//   // projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID
-//   apiKey: "AIzaSyAdb-VyzqskSDW_vxh984z7elcmNkPOYts",
-//   src: "https://www.gstatic.com/firebasejs/5.9.1/firebase.js",
-//   authDomain: "ellmoe.firebaseapp.com",
-//   databaseURL: "https://ellmoe.firebaseio.com",
-//   projectId: "ellmoe",
-//   storageBucket: "ellmoe.appspot.com",
-//   messagingSenderId: "774360750184"
-// };
-//
-// firebase.initializeApp(dbConfig);
-
-// make a reference to our firebase storage
-// const storage = Firebase.storage().ref();
-
 export function ImageUpload({
   onRequestSave,
   onRequestClear,
-  defaultFiles = []
+  defaultFiles = [],
+  filePaths = []
 }) {
   const [files, setFiles] = React.useState(defaultFiles);
   const ref = React.useRef(null);
+  let fileLocation;
 
   return (
     <FilePond
@@ -74,21 +53,25 @@ export function ImageUpload({
             snap => {
               console.log("progress: %o", snap);
               progress(true, snap.bytesTransferred, snap.totalBytes);
+              fileLocation = snap.ref.location.path_;
+              if (!filePaths.includes(fileLocation)) {
+                filePaths.push(fileLocation);
+              }
             },
             err => {
               console.log("error: %o", err);
               error(err.message);
             },
             () => {
+              // let fileLocation = snap.ref.location.path_;
+              console.log("this is the list of file locations: ", filePaths);
               console.log("DONE");
               load(id);
-              onRequestSave(id);
             }
           );
         },
         load: (source, load, error, progress, abort) => {
           progress(true, 0, 1024);
-
           Firebase.storage()
             .ref()
             .child("images/" + source)
@@ -109,12 +92,6 @@ export function ImageUpload({
               abort();
             });
         }
-      }}
-      onupdatefiles={fileItems => {
-        if (fileItems.length === 0) {
-          onRequestClear();
-        }
-        setFiles(fileItems.map(fileItem => fileItem.file));
       }}
     />
   );
