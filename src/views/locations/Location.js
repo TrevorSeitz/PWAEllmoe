@@ -10,11 +10,11 @@ import { Place } from "../../styles/layout";
 
 // import MediaCard from "../../styles/card";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from "react-responsive-carousel";
+// import { Carousel } from "react-responsive-carousel";
 
 const Location = ({ match }) => (
   // match is the information sent in from the click event on the list
-
+  // still have to search via uid
   <Place>
     <FirestoreCollection
       path={"locations"}
@@ -34,22 +34,28 @@ const Location = ({ match }) => (
         }
 
         const location = data[0];
-        let images = [];
-
+        // let images = [];
+        // console.log("auth: ", auth);
         console.log("location: ", location);
         console.log("location data: ", data);
         console.log("location images: ", location.images);
-        const buildImagesArray = location.images.map(image => {
-          images.push({
-            src: image
-          });
-        });
+        // const buildImagesArray = location.images.map(image => {
+        //   images.push({
+        //     src: image
+        //   });
+        // });
 
         return (
           <div>
             {location.images.map((image, i) => {
               return (
-                <img src={image} width="140" height="140" padding="20px" />
+                <img
+                  src={image}
+                  alt="this should not be here"
+                  width="140"
+                  height="140"
+                  padding="20px"
+                />
               );
             })}
             <h1>{location.name}</h1>
@@ -63,7 +69,7 @@ const Location = ({ match }) => (
             <FirebaseAuth>
               {({ auth }) =>
                 auth ? (
-                  <InternalLink to={`/${location.slug}/edit`}>
+                  <InternalLink to={`/${location.name}/edit`}>
                     Edit
                   </InternalLink>
                 ) : null

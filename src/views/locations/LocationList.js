@@ -10,6 +10,7 @@ const LocationList = () => (
   <Place>
     <FirestoreCollection path={"locations"}>
       {({ error, isLoading, data }) => {
+        console.log(data);
         if (error) {
           return <Error error={error} />;
         }
