@@ -10,8 +10,8 @@ import LocationList from "./locations/LocationList";
 import LocationNew from "./locations/LocationNew";
 import Search from "./search/Search";
 import Account from "./account/Account";
-import PostEdit from "./posts/PostEdit";
-// import LocationsEdit from "./locations/LocationsEdit";
+// import PostEdit from "./posts/PostEdit";
+import LocationEdit from "./locations/LocationEdit";
 // import Post from "./posts/Post";
 import Location from "./locations/Location";
 import Error from "./misc/Error";
@@ -22,7 +22,7 @@ const Routes = () => (
     <Route path="/new" component={LocationNew} />
     <Route path="/search" component={Search} />
     <Route path="/account" component={Account} />
-    <Route path="/:slug/edit" component={PostEdit} />
+    <Route path="/:slug/edit" component={LocationEdit} />
     <Route path="/:slug" component={Location} />
     <Route component={Error} />
   </Switch>

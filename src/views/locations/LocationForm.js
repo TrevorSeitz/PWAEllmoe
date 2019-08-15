@@ -6,10 +6,24 @@
 // get the values from the form on submit.
 
 import React from "react";
-import { ImageUpload } from "../../actions/ImageUpload";
+import Firebase from "firebase/app";
+import "firebase/storage";
+import shortid from "shortid";
+import { FilePond } from "react-filepond";
+import "filepond/dist/filepond.min.css";
+// import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
+// import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+// import { ImageUpload } from "../../actions/ImageUpload";
 import { FormRow, FormLabel, TextInput, TextArea } from "../../styles/forms";
 
-class LocationForm extends React.Component {
+export default class LocationForm extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      fileNames: [],
+      urls: []
+    };
+  }
   onSubmit = event => {
     event.preventDefault();
     const {
@@ -28,12 +42,130 @@ class LocationForm extends React.Component {
       contactName: contactName.value,
       contactPhoneNumber: contactPhoneNumber.value,
       email: email.value,
-      desciption: description.value
+      desciption: description.value,
+      images: this.state.urls
     };
+    console.log(values);
     this.props.onSubmit(values);
   };
 
+  imageUpload = () => {
+    // const [files, setFiles] = React.useState(defaultFiles);
+    let files = [];
+    let fileLocation;
+    let fileNames = [];
+    return (
+      <fragment>
+        <FilePond
+          files={files}
+          labelIdle={
+            'Drag & Drop your files or <span class="filepond--label-action"> Browse </span>'
+          }
+          allowMultiple={true}
+          maxFiles={5}
+          server={{
+            process: (
+              _fieldName,
+              file,
+              _metadata,
+              load,
+              error,
+              progress,
+              _abort
+            ) => {
+              const id = shortid.generate();
+              const task = Firebase.storage()
+                .ref()
+                .child("images/" + id)
+                .put(file, {
+                  contentType: "image/jpeg"
+                });
+
+              task.on(
+                Firebase.storage.TaskEvent.STATE_CHANGED,
+                snap => {
+                  console.log("progress: %o", snap);
+                  progress(true, snap.bytesTransferred, snap.totalBytes);
+                  fileLocation = snap.ref.name;
+                  console.log(snap.ref.name);
+                  if (!fileNames.includes(fileLocation)) {
+                    fileNames.push(fileLocation);
+                  }
+                },
+                err => {
+                  console.log("error: %o", err);
+                  error(err.message);
+                },
+                () => {
+                  // let fileLocation = snap.ref.location.path_;
+                  this.setState({ fileNames });
+                  console.log(
+                    "this is the list of file locations: ",
+                    fileNames
+                  );
+                  console.log("DONE");
+                  load(id);
+                }
+              );
+            },
+            load: (source, load, error, progress, abort) => {
+              progress(true, 0, 1024);
+              Firebase.storage()
+                .ref()
+                .child("images/" + source)
+                .getDownloadURL()
+                .then(url => {
+                  let xhr = new XMLHttpRequest();
+                  xhr.responseType = "blob";
+                  xhr.onload = function(event) {
+                    let blob = xhr.response;
+                    console.log("loaded URL: %s", url);
+                    load(blob);
+                  };
+                  xhr.open("GET", url);
+                  xhr.send();
+                  console.log("hello!!!");
+                })
+                .then(url => {
+                  this.setState({
+                    fileNames: [...this.state.fileNames, url]
+                  });
+                })
+                .then(() =>
+                  console.log("does this catch url?", this.state.filePath)
+                )
+                .catch(err => {
+                  error(err.message);
+                  abort();
+                });
+            }
+          }}
+        />
+        <div>{this.imageDownload()}</div>
+      </fragment>
+    );
+  };
+
+  imageDownload = () => {
+    this.state.fileNames.map(file =>
+      Firebase.storage()
+        .ref()
+        .child("images/" + file)
+        .getDownloadURL()
+        .then(url => {
+          if (!this.state.urls.includes(url)) {
+            this.setState({
+              urls: [...this.state.urls, url]
+            });
+          }
+        })
+        .then(console.log("paths array:", this.state.urls))
+    );
+  };
+
   render() {
+    console.log("fileNames", this.state.fileNames);
+    // let fileNames = [];
     return (
       <form onSubmit={this.onSubmit}>
         <FormRow>
@@ -44,16 +176,12 @@ class LocationForm extends React.Component {
             defaultValue={this.props.location ? this.props.location.name : ""}
             required
           />
-        </FormRow>
-        <FormRow>
           <FormLabel htmlFor="venue">Venue Type</FormLabel>
           <TextInput
             type="venue"
             name="venue"
             defaultValue={this.props.location ? this.props.location.venue : ""}
           />
-        </FormRow>
-        <FormRow>
           <FormLabel htmlFor="project">Project</FormLabel>
           <TextInput
             type="project"
@@ -62,8 +190,6 @@ class LocationForm extends React.Component {
               this.props.location ? this.props.location.project : ""
             }
           />
-        </FormRow>
-        <FormRow>
           <FormLabel htmlFor="contactName">Contact Name</FormLabel>
           <TextInput
             type="contactName"
@@ -72,8 +198,6 @@ class LocationForm extends React.Component {
               this.props.location ? this.props.location.contactName : ""
             }
           />
-        </FormRow>
-        <FormRow>
           <FormLabel htmlFor="contactPhoneNumber">
             Contact Phone Number
           </FormLabel>
@@ -84,16 +208,12 @@ class LocationForm extends React.Component {
               this.props.location ? this.props.location.contactPhoneNumber : ""
             }
           />
-        </FormRow>
-        <FormRow>
           <FormLabel htmlFor="email">Contact Email</FormLabel>
           <TextInput
             type="email"
             name="email"
             defaultValue={this.props.location ? this.props.location.email : ""}
           />
-        </FormRow>
-        <FormRow>
           <FormLabel htmlFor="description">Description</FormLabel>
           <TextArea
             type="description"
@@ -103,13 +223,9 @@ class LocationForm extends React.Component {
             }
           />
         </FormRow>
-        <FormRow>
-          <ImageUpload />
-        </FormRow>
+        <FormRow>{this.imageUpload()}</FormRow>
         <button type="submit">Save</button>
       </form>
     );
   }
 }
-
-export default LocationForm;

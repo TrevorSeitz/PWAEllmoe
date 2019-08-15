@@ -1,17 +1,24 @@
 import React from "react";
 import { FirestoreCollection } from "react-firestore";
 
+// import Firebase from "firebase/app";
 import FirebaseAuth from "../misc/FirebaseAuth";
 import Error from "../misc/Error";
 import { InternalLink } from "../../styles/links";
 import { Place } from "../../styles/layout";
+// import ImageGallery from "react-image-gallery";
+
+// import MediaCard from "../../styles/card";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+// import { Carousel } from "react-responsive-carousel";
 
 const Location = ({ match }) => (
-  //Not sure why match is used here
+  // match is the information sent in from the click event on the list
+  // still have to search via uid
   <Place>
     <FirestoreCollection
       path={"locations"}
-      filter={["slug", "==", match.params.slug]}
+      filter={["name", "==", match.params.slug]}
     >
       {({ error, isLoading, data }) => {
         if (error) {
@@ -27,13 +34,30 @@ const Location = ({ match }) => (
         }
 
         const location = data[0];
-
+        // let images = [];
+        // console.log("auth: ", auth);
         console.log("location: ", location);
-        console.log("location: ", data);
+        console.log("location data: ", data);
+        console.log("location images: ", location.images);
+        // const buildImagesArray = location.images.map(image => {
+        //   images.push({
+        //     src: image
+        //   });
+        // });
 
         return (
           <div>
-            <img src={location.imageURL} alt="" width="100" height="100" />
+            {location.images.map((image, i) => {
+              return (
+                <img
+                  src={image}
+                  alt="this should not be here"
+                  width="140"
+                  height="140"
+                  padding="20px"
+                />
+              );
+            })}
             <h1>{location.name}</h1>
             <h5>Venue Type: {location.venue}</h5>
             <h5>Project: {location.project}</h5>
@@ -45,7 +69,7 @@ const Location = ({ match }) => (
             <FirebaseAuth>
               {({ auth }) =>
                 auth ? (
-                  <InternalLink to={`/${location.slug}/edit`}>
+                  <InternalLink to={`/${location.name}/edit`}>
                     Edit
                   </InternalLink>
                 ) : null

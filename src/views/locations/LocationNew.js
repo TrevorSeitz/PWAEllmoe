@@ -30,9 +30,12 @@ const LocationNew = ({ history }) => (
         return (
           <LocationForm
             onSubmit={values =>
-              createLocation(values).then(location =>
-                history.push(`/${location.slug}`)
-              )
+              createLocation(values)
+                .then(
+                  // console.log("get history push from here: ", values)
+                  history.push(`/${values.name}`)
+                )
+                .then(values => console.log(values))
             }
           />
         );
