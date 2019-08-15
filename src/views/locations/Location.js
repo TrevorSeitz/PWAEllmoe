@@ -1,6 +1,7 @@
 import React from "react";
 import { FirestoreCollection } from "react-firestore";
 
+import Firebase from "firebase/app";
 import FirebaseAuth from "../misc/FirebaseAuth";
 import Error from "../misc/Error";
 import { InternalLink } from "../../styles/links";
@@ -8,11 +9,12 @@ import { Place } from "../../styles/layout";
 import ImageGallery from "react-image-gallery";
 
 const Location = ({ match }) => (
-  //Not sure why match is used here
+  // match is the information sent in from the click event on the list
+
   <Place>
     <FirestoreCollection
       path={"locations"}
-      filter={["name", "==", match.params.name]}
+      filter={["name", "==", match.params.slug]}
     >
       {({ error, isLoading, data }) => {
         if (error) {
