@@ -6,7 +6,10 @@ import FirebaseAuth from "../misc/FirebaseAuth";
 import Error from "../misc/Error";
 import { InternalLink } from "../../styles/links";
 import { Place } from "../../styles/layout";
-import ImageGallery from "react-image-gallery";
+// import ImageGallery from "react-image-gallery";
+
+import { render } from "react-dom";
+import Gallery from "react-photo-gallery";
 
 const Location = ({ match }) => (
   // match is the information sent in from the click event on the list
@@ -30,13 +33,29 @@ const Location = ({ match }) => (
         }
 
         const location = data[0];
+        let images = [];
 
         console.log("location: ", location);
         console.log("location data: ", data);
+        console.log("location images: ", location.images);
+        const buildImagesArray = location.images.map(image => {
+          images.push({
+            src: image,
+            width: 1,
+            height: 1,
+            columns: 2
+          });
+        });
+
+        const BasicRows = () => <Gallery photos={images} />;
+
+        /* popout the browser and maximize to see more rows! -> */
+        // const BasicRows = () => <Gallery photos={photos} />;
+        // render(<BasicRows />, document.getElementById("app"));
 
         return (
           <div>
-            <ImageGallery items={location.images} />
+            <BasicRows />
             <h1>{location.name}</h1>
             <h5>Venue Type: {location.venue}</h5>
             <h5>Project: {location.project}</h5>
