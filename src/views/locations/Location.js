@@ -1,7 +1,7 @@
 import React from "react";
 import { FirestoreCollection } from "react-firestore";
 
-// import Firebase from "firebase/app";
+import firebase from "firebase/app";
 import FirebaseAuth from "../misc/FirebaseAuth";
 import Error from "../misc/Error";
 import { InternalLink } from "../../styles/links";
@@ -35,10 +35,10 @@ const Location = ({ match }) => (
 
         const location = data[0];
         // let images = [];
-        // console.log("auth: ", auth);
-        console.log("location: ", location);
-        console.log("location data: ", data);
-        console.log("location images: ", location.images);
+        console.log("user: ", firebase.auth().currentUser.uid);
+        // console.log("location: ", location);
+        // console.log("location data: ", data);
+        // console.log("location images: ", location.images);
         // const buildImagesArray = location.images.map(image => {
         //   images.push({
         //     src: image
