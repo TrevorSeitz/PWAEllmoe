@@ -5,13 +5,14 @@ import FirebaseAuth from "../misc/FirebaseAuth";
 import Error from "../misc/Error";
 import { InternalLink } from "../../styles/links";
 import { Place } from "../../styles/layout";
+import ImageGallery from "react-image-gallery";
 
 const Location = ({ match }) => (
   //Not sure why match is used here
   <Place>
     <FirestoreCollection
       path={"locations"}
-      filter={["slug", "==", match.params.slug]}
+      filter={["name", "==", match.params.name]}
     >
       {({ error, isLoading, data }) => {
         if (error) {
@@ -29,11 +30,11 @@ const Location = ({ match }) => (
         const location = data[0];
 
         console.log("location: ", location);
-        console.log("location: ", data);
+        console.log("location data: ", data);
 
         return (
           <div>
-            <img src={location.imageURL} alt="" width="100" height="100" />
+            <ImageGallery items={location.images} />
             <h1>{location.name}</h1>
             <h5>Venue Type: {location.venue}</h5>
             <h5>Project: {location.project}</h5>

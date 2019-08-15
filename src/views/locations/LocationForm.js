@@ -214,8 +214,6 @@ export default class LocationForm extends React.Component {
             name="email"
             defaultValue={this.props.location ? this.props.location.email : ""}
           />
-        </FormRow>
-        <FormRow>
           <FormLabel htmlFor="description">Description</FormLabel>
           <TextArea
             type="description"
