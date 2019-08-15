@@ -1,15 +1,16 @@
 import React from "react";
 import { FirestoreCollection } from "react-firestore";
 
-import Firebase from "firebase/app";
+// import Firebase from "firebase/app";
 import FirebaseAuth from "../misc/FirebaseAuth";
 import Error from "../misc/Error";
 import { InternalLink } from "../../styles/links";
 import { Place } from "../../styles/layout";
 // import ImageGallery from "react-image-gallery";
 
-import { render } from "react-dom";
-import Gallery from "react-photo-gallery";
+// import MediaCard from "../../styles/card";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from "react-responsive-carousel";
 
 const Location = ({ match }) => (
   // match is the information sent in from the click event on the list
@@ -40,22 +41,17 @@ const Location = ({ match }) => (
         console.log("location images: ", location.images);
         const buildImagesArray = location.images.map(image => {
           images.push({
-            src: image,
-            width: 1,
-            height: 1,
-            columns: 2
+            src: image
           });
         });
 
-        const BasicRows = () => <Gallery photos={images} />;
-
-        /* popout the browser and maximize to see more rows! -> */
-        // const BasicRows = () => <Gallery photos={photos} />;
-        // render(<BasicRows />, document.getElementById("app"));
-
         return (
           <div>
-            <BasicRows />
+            {location.images.map((image, i) => {
+              return (
+                <img src={image} width="140" height="140" padding="20px" />
+              );
+            })}
             <h1>{location.name}</h1>
             <h5>Venue Type: {location.venue}</h5>
             <h5>Project: {location.project}</h5>
