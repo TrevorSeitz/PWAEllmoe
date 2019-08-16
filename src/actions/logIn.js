@@ -23,7 +23,3 @@ const LogIn = () => {
 };
 
 export default LogIn;
-
-//
-// doSignInWithEmailAndPassword = (email, password) =>
-//   this.auth.signInWithEmailAndPassword(email, password);

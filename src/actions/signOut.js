@@ -9,6 +9,7 @@ const SignOutButton = ({}) => (
     category: "User",
     action: "Log out"
   }),
+  localStorage.clear(),
   (
     <button type="button" onClick={Firebase.doSignOut}>
       Sign Out

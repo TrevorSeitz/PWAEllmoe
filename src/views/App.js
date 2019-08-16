@@ -17,6 +17,7 @@ const App = () => {
     const authListener = firebase.auth().onAuthStateChanged(authUser => {
       console.log("authUser: ", authUser);
       console.log("authUser.uid", authUser.uid);
+      localStorage.setItem("authUser", authUser.uid);
 
       if (authUser) {
         setAuthUser(authUser);
@@ -35,7 +36,6 @@ const App = () => {
         <ErrorBoundary>
           <Layout>
             <Route path="/" component={ScrollToTop} />
-            <Route path="/" component={Analytics} />
             <Routes authUser={authUser} />
           </Layout>
         </ErrorBoundary>

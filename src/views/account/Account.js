@@ -1,6 +1,7 @@
 import React from "react";
 
 import logIn from "../../actions/logIn";
+import logOut from "../../actions/logOut";
 import FirebaseAuth from "../misc/FirebaseAuth";
 import Error from "../misc/Error";
 import Profile from "./Profile";
@@ -32,7 +33,7 @@ const Account = () => (
           <div>
             <Profile auth={auth} />
             <hr />
-            <Subscription auth={auth} />
+            <logOut auth={auth} />
           </div>
         );
       }}

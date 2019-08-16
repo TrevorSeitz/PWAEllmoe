@@ -1,17 +1,40 @@
 import React from "react";
 import { FirestoreCollection } from "react-firestore";
-import "firebase/auth";
+import { Link } from "react-router-dom";
+// import FirebaseAuth from "../misc/FirebaseAuth";
 import firebase from "firebase/app";
 import Error from "../misc/Error";
 // import EllmoeSubscription from "../misc/EllmoeSubscription";
 import { InternalLink } from "../../styles/links";
 import { Place } from "../../styles/layout";
 
+const authUser = localStorage.getItem("authUser");
+
 const LocationList = () => (
   <Place>
+    {console.log("authUser - top of page: ", authUser)}
+    {({ isLoading, error, auth }) => {
+      if (isLoading) {
+        return <p>loading...</p>;
+      }
+
+      if (error) {
+        return <Error error={error} />;
+      }
+
+      if (!authUser) {
+        return (
+          <div>
+            <Link to="/logIn">
+              <p>Log in to see your account</p>
+            </Link>
+          </div>
+        );
+      }
+    }}
     <FirestoreCollection
       path={"locations"}
-      filter={["createdBy", "==", firebase.auth().c.b]}
+      filter={["createdBy", "==", authUser]}
     >
       {({ error, isLoading, data }) => {
         // console.log(data);
@@ -41,9 +64,7 @@ const LocationList = () => (
         );
       }}
     </FirestoreCollection>
-
     <hr />
-    {console.log("user: ", firebase.auth().Nb)}
     <InternalLink to="/new">Add A New Location</InternalLink>
   </Place>
 );

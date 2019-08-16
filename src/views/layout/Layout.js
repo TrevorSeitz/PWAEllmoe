@@ -9,6 +9,7 @@ import FirebaseAuth from "../misc/FirebaseAuth";
 import { HeaderFooterWrapper, Header, Footer } from "../../styles/layout";
 import { HeaderLink } from "../../styles/links";
 
+const authUser = localStorage.getItem("authUser");
 const Layout = ({ children }) => (
   <HeaderFooterWrapper>
     <Header>

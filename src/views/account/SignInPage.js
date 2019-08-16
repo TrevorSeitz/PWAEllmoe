@@ -1,14 +1,17 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
-
+import { withRouter, Link } from "react-router-dom";
+import firebase from "firebase/app";
 import { SignUpLink } from "./SignUpPage";
 import { withFirebase } from "../../actions/helpers/firestoreHelpers";
 import LogIn from "../../actions/logIn";
 
 const SignInPage = () => (
   <div>
-    <h1>SignIn</h1>
+    <h1>Sign In</h1>
     <SignInForm />
+    <h3>
+      Use <Link to="/logIn"> Google </Link>to Sign In
+    </h3>
     <SignUpLink />
   </div>
 );
@@ -29,11 +32,13 @@ class SignInFormBase extends Component {
   onSubmit = event => {
     const { email, password } = this.state;
 
-    this.props.firebase
-      .doSignInWithEmailAndPassword(email, password)
+    // this.props.
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
       .then(() => {
         this.setState({ ...INITIAL_STATE });
-        this.props.history.push("/locationList");
+        this.props.history.push("/Account");
       })
       .catch(error => {
         console.log("there is an error!! ", error);
