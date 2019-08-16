@@ -1,4 +1,5 @@
 import Firebase from "firebase/app";
+import "firebase/auth";
 import ReactGA from "react-ga";
 
 const logIn = () => {
@@ -22,3 +23,7 @@ const logIn = () => {
 };
 
 export default logIn;
+
+//
+// doSignInWithEmailAndPassword = (email, password) =>
+//   this.auth.signInWithEmailAndPassword(email, password);

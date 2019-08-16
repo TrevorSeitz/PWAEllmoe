@@ -35,7 +35,7 @@ const Location = ({ match }) => (
 
         const location = data[0];
         // let images = [];
-        console.log("user: ", firebase.auth().currentUser.uid);
+        console.log("user: ", firebase.auth().currentUser);
         // console.log("location: ", location);
         // console.log("location data: ", data);
         // console.log("location images: ", location.images);

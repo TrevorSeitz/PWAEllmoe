@@ -1,5 +1,6 @@
 // Helper functions for working with Firebase Firestore
 
+import React from "react";
 import Firebase from "firebase/app";
 import "firebase/auth";
 
@@ -33,4 +34,14 @@ const prepareDocForUpdate = doc => {
   return doc;
 };
 
-export { prepareDocForCreate, prepareDocForUpdate };
+const FirebaseContext = React.createContext(null);
+
+const withFirebase = Component => props => (
+  <FirebaseContext.Consumer>
+    {firebase => <Component {...props} firebase={firebase} />}
+  </FirebaseContext.Consumer>
+);
+
+export default FirebaseContext;
+
+export { prepareDocForCreate, prepareDocForUpdate, withFirebase };

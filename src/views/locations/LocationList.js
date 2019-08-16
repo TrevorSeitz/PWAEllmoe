@@ -1,6 +1,6 @@
 import React from "react";
 import { FirestoreCollection } from "react-firestore";
-
+import "firebase/auth";
 import firebase from "firebase/app";
 import Error from "../misc/Error";
 // import EllmoeSubscription from "../misc/EllmoeSubscription";
@@ -11,7 +11,7 @@ const LocationList = () => (
   <Place>
     <FirestoreCollection
       path={"locations"}
-      filter={["createdBy", "==", firebase.auth().currentUser.uid]}
+      filter={["createdBy", "==", firebase.auth().c.b]}
     >
       {({ error, isLoading, data }) => {
         // console.log(data);
@@ -43,6 +43,7 @@ const LocationList = () => (
     </FirestoreCollection>
 
     <hr />
+    {console.log("user: ", firebase.auth().Nb)}
     <InternalLink to="/new">Add A New Location</InternalLink>
   </Place>
 );

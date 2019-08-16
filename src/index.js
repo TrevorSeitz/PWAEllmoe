@@ -4,6 +4,9 @@
 import Firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import FirebaseContext, {
+  withFirebase
+} from "./actions/helpers/firestoreHelpers";
 import React from "react";
 import ReactDOM from "react-dom";
 import ReactGA from "react-ga";
@@ -28,6 +31,10 @@ const dbConfig = {
 };
 
 Firebase.initializeApp(dbConfig);
+
+export default Firebase;
+
+export { FirebaseContext, withFirebase };
 
 // temporary config to squash error date warning
 // TODO - remove once this is the firebase default behavior
