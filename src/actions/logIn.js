@@ -2,7 +2,7 @@ import Firebase from "firebase/app";
 import "firebase/auth";
 import ReactGA from "react-ga";
 
-const logIn = () => {
+const LogIn = () => {
   ReactGA.event({
     category: "User",
     action: "Log in"
@@ -22,7 +22,7 @@ const logIn = () => {
     });
 };
 
-export default logIn;
+export default LogIn;
 
 //
 // doSignInWithEmailAndPassword = (email, password) =>

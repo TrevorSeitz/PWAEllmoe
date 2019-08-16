@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 
 import { SignUpLink } from "./SignUpPage";
 import { withFirebase } from "../../actions/helpers/firestoreHelpers";
+import LogIn from "../../actions/logIn";
 
 const SignInPage = () => (
   <div>
@@ -32,9 +33,10 @@ class SignInFormBase extends Component {
       .doSignInWithEmailAndPassword(email, password)
       .then(() => {
         this.setState({ ...INITIAL_STATE });
-        this.props.history.push("/");
+        this.props.history.push("/locationList");
       })
       .catch(error => {
+        console.log("there is an error!! ", error);
         this.setState({ error });
       });
 
@@ -51,31 +53,34 @@ class SignInFormBase extends Component {
     const isInvalid = password === "" || email === "";
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="password"
-          value={password}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Password"
-        />
-        <button disabled={isInvalid} type="submit">
-          Sign In
-        </button>
+      <div>
+        <form onSubmit={this.onSubmit}>
+          <input
+            name="email"
+            value={email}
+            onChange={this.onChange}
+            type="text"
+            placeholder="Email Address"
+          />
+          <input
+            name="password"
+            value={password}
+            onChange={this.onChange}
+            type="password"
+            placeholder="Password"
+          />
+          <button disabled={isInvalid} type="submit">
+            Sign In
+          </button>
 
-        {error && <p>{error.message}</p>}
-      </form>
+          {error && <p>{error.message}</p>}
+        </form>
+      </div>
     );
   }
 }
 
+// <LogIn />
 const SignInForm = withRouter(withFirebase(SignInFormBase));
 
 export default SignInPage;

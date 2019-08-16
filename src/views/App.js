@@ -1,9 +1,9 @@
-import Firebase from "firebase/app";
+import firebase from "firebase/app";
 import { FirestoreProvider } from "react-firestore";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactGA from "react-ga";
 import { BrowserRouter, Route } from "react-router-dom";
-
+import { withFirebase } from "../actions/helpers/firestoreHelpers";
 import ErrorBoundary from "./misc/ErrorBoundary";
 import Routes from "./Routes";
 import Layout from "./layout/Layout";
@@ -12,8 +12,25 @@ import "../styles/global";
 const App = () => {
   const [authUser, setAuthUser] = useState(null);
 
+  useEffect(() => {
+    console.log("Running App useEffect...");
+    const authListener = firebase.auth().onAuthStateChanged(authUser => {
+      console.log("authUser: ", authUser);
+      console.log("authUser.uid", authUser.uid);
+
+      if (authUser) {
+        setAuthUser(authUser);
+        // setAuthWasListened(true);
+      } else {
+        setAuthUser(null);
+        // setAuthWasListened(true);
+      }
+    });
+    return () => authListener(); // THIS MUST BE A FUNCTION, AND NOT A FUNCTION CALL
+  }, []);
+
   return (
-    <FirestoreProvider firebase={Firebase}>
+    <FirestoreProvider firebase={firebase}>
       <BrowserRouter>
         <ErrorBoundary>
           <Layout>
@@ -49,4 +66,4 @@ const Analytics = ({ location }) => {
   return null;
 };
 
-export default App;
+export default withFirebase(App);

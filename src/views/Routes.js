@@ -3,7 +3,7 @@
 
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-
+import Landing from "./misc/Landing";
 import SignInPage from "./account/SignInPage";
 import SignUpPage from "./account/SignUpPage";
 import LocationList from "./locations/LocationList";
@@ -16,9 +16,10 @@ import Error from "./misc/Error";
 
 const Routes = () => (
   <Switch>
-    <Route exact path="/" component={LocationList} />
+    <Route exact path="/" component={Landing} />
+    <Route path="/locationList" component={LocationList} />
     <Route path="/new" component={LocationNew} />
-    <Route path="/account" component={Account} />
+    <Route path="/landing" component={Landing} />
     <Route path="/search" component={Search} />
     <Route path="/signIn" component={SignInPage} />;
     <Route path="/signUp" component={SignUpPage} />;
